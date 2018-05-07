@@ -169,6 +169,22 @@
                waitabc=setInterval(waitforsheild,100);
    	 		}
    	 }
+	   
+	function sendmsg(){
+         var text=document.getElementById('playermsg').value;
+         document.getElementById('playermsg').value = '';
+         socket.emit('send-msg',{msg:text,obj:player});
+       }
+
+       socket.on('msg-rcv',function(data){
+         document.getElementById('msg-box').innerHTML = '<div id="showmsg" style="position: fixed;background-color: #fff;padding: 20px;border-radius: 9px;">'+data.msg+'\
+            </div>'
+         setTimeout(clearmsg,1500);
+       });
+
+       function clearmsg(){
+         document.getElementById('msg-box').innerHTML = '';
+       }
    </script>
 <body onunload="leaveroom()" style="background-image: url('mygif1.gif');background-size: cover;">
       <div id="error-container" style="background-color: white"></div>
@@ -180,8 +196,9 @@
             <div class="col-lg-10"><div id="myhealth"></div></div>
          </div>
 
-         <div class="row"></div>
-
+	 <div id="msg-box" style="height: 100px">
+         </div>
+	      
          <div class="row">
             <div id="spearalert" class="col-sm-2 col-sm-offset-3" style="display: inline;"></div><div id="sheildalert" class="col-sm-2 col-sm-offset-2" style="display: inline;"></div>
          </div>
@@ -190,6 +207,9 @@
    			<div class="col-sm-3 col-sm-offset-3" style="display: inline;"><button class="btn btn-lg btn-danger" id="spear" onclick="usespear()" style="width: 40%">Spear</button></div>
    			<div class="col-sm-3 col-sm-offset-1" style="display: inline;"><button class="btn btn-lg btn-success" id="sheild" onclick="usesheild()" style="width: 40%">Sheild</button></div>
    		</div>
+	 <div style="position: fixed;bottom: 0;width: 100%;background-color: #000;padding-top: 10px;padding-bottom: 5px" class="row">
+            <input type="text" name="msg" id="playermsg" class="col-sm-6 col-sm-offset-2" style="padding: 7px;border-radius: 3px" placeholder="message..."><button onclick="sendmsg()" class="col-sm-offset-1 col-sm-2 btn btn-md btn-success show-popover" style="margin-left: 20px"> >> </button>
+         </div>
 
          <div class="row"></div>
    	</div>
