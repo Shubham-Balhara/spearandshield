@@ -39,6 +39,10 @@ io.on('connection',function(socket){
     socket.on('lightoff',function(data){
       socket.broadcast.in(data.obj.room_id).emit('lightoffback',{obj:data.obj});
     });
+	
+   socket.on('send-msg',function(data){
+      socket.broadcast.in(data.obj.room_id).emit('msg-rcv',{msg:data.msg,obj:data.obj});
+    });
 
     socket.on('leftroom',function(data){
       var tempid="room-"+roomno;
